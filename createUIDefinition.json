@@ -16,7 +16,7 @@
                 }
             },
             {
-                "name": "domainPassword",
+                "name": "infaDomainPassword",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
                     "password": "Password",
@@ -34,7 +34,7 @@
 				
             },
             {
-                "name": "domainEncryptionKeyword",
+                "name": "infaDomainEncryptionKeyword",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
                     "password": "Keyphrase for encryption for domain",
