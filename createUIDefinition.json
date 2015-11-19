@@ -22,7 +22,6 @@
                     "password": "Password",
                     "confirmPassword": "Confirm password"
                 },
-                "toolTip": "",
                 "constraints": {
                     "required": true,
                     "validationMessage": "Password must at least 4 characters in length."
@@ -30,7 +29,6 @@
                 "options": {
                     "hideConfirmation": false
                 }
-				
             },
             {
                 "name": "infaDomainEncryptionKeyword",
