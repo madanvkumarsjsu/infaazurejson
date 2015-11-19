@@ -22,7 +22,6 @@
                     "password": "Informatica domain password",
                     "confirmPassword": "Confirm Informatica domain password"
                 },
-                "toolTip": "",
                 "constraints": {
                     "required": true,
                     "regex": "^{4,}$",
