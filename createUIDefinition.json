@@ -1,12 +1,10 @@
 ﻿{
     "handler": "Microsoft.Compute.MultiVm",
     "version": "0.0.1-preview",
-    "parameters": 
-    {
-        "basics": 
-        [
-			{
-				"name": "domainName",
+    "parameters": {
+        "basics": [
+            {
+                "name": "domainName",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Informatica domain name",
                 "defaultValue": "Azure_Domain",
@@ -16,56 +14,76 @@
                     "regex": "^[a-z0-9A-Z_]{1,30}$",
                     "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
                 }
-			},
-            {
-                "name": "adminUsername",
-                "type": "Microsoft.Compute.UserNameTextBox",
-                "label": "Username",
-                "toolTip": "Admin username for the Repository and Slave virtual machines.",                
-                "osPlatform": "Windows"
             },
-
             {
-                "name": "adminPassword",
-                "type": "Microsoft.Compute.CredentialsCombo",
-                "label":
-                {
-                    "password": "Password",
-                    "confirmPassword": "Confirm Password"
+                "name": "domainPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Informatica domain password",
+                    "confirmPassword": "Confirm Informatica domain password"
                 },
-                "toolTip": 
-                {
-                    "password": "Admin password for the Repository and Slave virtual machines."
+                "toolTip": "",
+                "constraints": {
+                    "required": true,
+                    "regex": "^{4,}$",
+                    "validationMessage": "Password must at least 4 characters in length."
                 },
-                "osPlatform": "Windows"
+                "options": {
+                    "hideConfirmation": false
+                }
+            },
+            {
+                "name": "domainEncryptionKeyword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Keyphrase for encryption for domain",
+                    "confirmPassword": "Confirm keyphrase for encryption for domain"
+                },
+                "toolTip": "",
+                "constraints": {
+                    "required": true,
+                    "regex": "^{8,}$",
+                    "validationMessage": "keyphrase must at least 8 characters in length."
+                },
+                "options": {
+                    "hideConfirmation": false
+                }
+            },
+            {
+                "name": "domainNodeCount",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Number of nodes required in the Informatica domain",
+                "defaultValue": "1",
+                "toolTip": "Check Informatica 961HF3 commandline reference document.",
+                "constraints": {
+                    "required": true,
+                    "regex": "^[0-9]{1,}$",
+                    "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+                }
             }
         ],
-        "steps": 
-        [
+        "steps": [
             {
                 "name": "infrastructureConfig",
                 "label": "Infrastructure settings",
-                "subLabel": 
-                {
+                "subLabel": {
                     "preValidation": "Configure the infrastructure settings",
                     "postValidation": "Done"
                 },
                 "bladeTitle": "Infrastructure settings",
-                "elements":
-                [
+                "elements": [
                     {
                         "name": "clusterName",
                         "type": "Microsoft.Common.TextBox",
                         "label": "Cluster Prefix",
                         "defaultValue": "dl",
                         "toolTip": "Prefix for everything this template creates.",
-                        "constraints": 
-                        {
+                        "constraints": {
                             "required": true,
                             "regex": "^[a-z0-9]{1,30}$",
                             "validationMessage": "Only lowercase alphanumeric characters are allowed, and the value must be 1-30 characters long."
                         },
-                        "options": {}
+                        "options": { }
                     },
                     {
                         "name": "slaveCount",
@@ -73,10 +91,8 @@
                         "label": "Number of Slave VMs",
                         "defaultValue": "2",
                         "toolTip": "",
-                        "constraints": 
-                        {
-                            "allowedValues": 
-                            [
+                        "constraints": {
+                            "allowedValues": [
                                 {
                                     "label": "2",
                                     "value": 2
@@ -100,8 +116,7 @@
                         "name": "storageAccount",
                         "type": "Microsoft.Storage.StorageAccountSelector",
                         "label": "Storage account",
-                        "defaultValue": 
-                        {
+                        "defaultValue": {
                             "type": "Standard_LRS"
                         }
                     },
@@ -111,13 +126,12 @@
                         "label": "Public DNS Name",
                         "defaultValue": "",
                         "toolTip": "",
-                        "constraints": 
-                        {
+                        "constraints": {
                             "required": true,
                             "regex": "^[a-z0-9]{1,30}$",
                             "validationMessage": "Only lowercase alphanumeric characters are allowed, and the value must be 1-30 characters long."
                         },
-                        "options": {}
+                        "options": { }
                     },
                     {
                         "name": "repositoryVMSize",
@@ -131,19 +145,19 @@
                         ],
                         "constraints": {
                             "allowedSizes": [
-                              "Standard_A1",
-                              "Standard_A2",
-                              "Standard_A3",
-                              "Standard_A4",
-                              "Standard_A11",
-                              "Standard_D1",
-                              "Standard_D2",
-                              "Standard_D3",
-                              "Standard_D4",
-                              "Standard_D11",
-                              "Standard_D12",
-                              "Standard_D13",
-                              "Standard_D14"
+                                "Standard_A1",
+                                "Standard_A2",
+                                "Standard_A3",
+                                "Standard_A4",
+                                "Standard_A11",
+                                "Standard_D1",
+                                "Standard_D2",
+                                "Standard_D3",
+                                "Standard_D4",
+                                "Standard_D11",
+                                "Standard_D12",
+                                "Standard_D13",
+                                "Standard_D14"
                             ]
                         },
                         "osPlatform": "Windows",
@@ -166,19 +180,19 @@
                         ],
                         "constraints": {
                             "allowedSizes": [
-                              "Standard_A1",
-                              "Standard_A2",
-                              "Standard_A3",
-                              "Standard_A4",
-                              "Standard_A11",
-                              "Standard_D1",
-                              "Standard_D2",
-                              "Standard_D3",
-                              "Standard_D4",
-                              "Standard_D11",
-                              "Standard_D12",
-                              "Standard_D13",
-                              "Standard_D14"
+                                "Standard_A1",
+                                "Standard_A2",
+                                "Standard_A3",
+                                "Standard_A4",
+                                "Standard_A11",
+                                "Standard_D1",
+                                "Standard_D2",
+                                "Standard_D3",
+                                "Standard_D4",
+                                "Standard_D11",
+                                "Standard_D12",
+                                "Standard_D13",
+                                "Standard_D14"
                             ]
                         },
                         "osPlatform": "Windows",
@@ -192,8 +206,7 @@
                 ]
             }
         ],
-        "outputs": 
-        {
+        "outputs": {
             "location": "[location()]",
             "adminUsername": "[basics('adminUsername')]",
             "adminPassword": "[basics('adminPassword')]",
