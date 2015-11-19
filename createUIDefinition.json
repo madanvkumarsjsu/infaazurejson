@@ -5,6 +5,18 @@
     {
         "basics": 
         [
+			{
+				"name": "domainName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Informatica domain name",
+                "defaultValue": "Azure_Domain",
+                "toolTip": "Check Informatica 961HF3 commandline reference document.",
+                "constraints": {
+                    "required": true,
+                    "regex": "^[a-z0-9A-Z_]{1,30}$",
+                    "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+                }
+			},
             {
                 "name": "adminUsername",
                 "type": "Microsoft.Compute.UserNameTextBox",
