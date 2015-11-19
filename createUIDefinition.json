@@ -19,8 +19,8 @@
                 "name": "domainPassword",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
-                    "password": "Informatica domain password",
-                    "confirmPassword": "Confirm Informatica domain password"
+                    "password": "Password",
+                    "confirmPassword": "Confirm password"
                 },
                 "toolTip": "",
                 "constraints": {
@@ -31,6 +31,7 @@
                 "options": {
                     "hideConfirmation": false
                 }
+				
             },
             {
                 "name": "domainEncryptionKeyword",
