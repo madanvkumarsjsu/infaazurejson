@@ -106,7 +106,30 @@
                 ]
             }
         ],
-        "steps": [ ],
+        "steps": [
+            {
+                "name": "VM01",
+                "type": "Microsoft.Compute.SizeSelector",
+                "label": "Size",
+                "toolTip": "",
+                "recommendedSizes": [
+                    "Standard_D1",
+                    "Standard_D2",
+                    "Standard_D3"
+                ],
+                "constraints": {
+                    "allowedSizes": [ ],
+                    "excludedSizes": [ ]
+                },
+                "osPlatform": "Windows",
+                "imageReference": {
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2012‐R2‐Datacenter"
+                },
+                "count": 2
+            }
+        ],
         "outputs": { }
     }
 }
