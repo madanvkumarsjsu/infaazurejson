@@ -1,6 +1,6 @@
 ﻿{
     "handler": "Microsoft.Compute.MultiVm",
-    "version": "0.0.1‐preview",
+    "version": "0.0.1-preview",
     "parameters": {
         "basics": [
             {
@@ -16,8 +16,8 @@
                         "toolTip": "Check Informatica 961HF3 commandline reference document.",
                         "constraints": {
                             "required": true,
-                            "regex": "^[a‐z0‐9A‐Z_]{1,30}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1‐30"
+                            "regex": "^[a-z0-9A-Z_]{1,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
                         }
                     },
                     {
@@ -62,8 +62,8 @@
                         "toolTip": "Check Informatica 961HF3 commandline reference document.",
                         "constraints": {
                             "required": true,
-                            "regex": "^[0‐9]{1,}$",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1‐30"
+                            "regex": "^[0-9]{1,}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
                         }
                     }
                 ]
@@ -83,7 +83,7 @@
                         "constraints": {
                             "required": true,
                             "regex": "",
-                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1‐30"
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
                         }
                     },
                     {
@@ -125,7 +125,7 @@
                 "imageReference": {
                     "publisher": "MicrosoftWindowsServer",
                     "offer": "WindowsServer",
-                    "sku": "2012‐R2‐Datacenter"
+                    "sku": "2012-R2-Datacenter"
                 },
                 "count": 2
             }
