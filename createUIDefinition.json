@@ -25,7 +25,6 @@
                 "toolTip": "",
                 "constraints": {
                     "required": true,
-                    "regex": "^{4,}$",
                     "validationMessage": "Password must at least 4 characters in length."
                 },
                 "options": {
