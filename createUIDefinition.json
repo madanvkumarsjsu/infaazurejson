@@ -4,10 +4,22 @@
     "parameters": {
         "basics": [
             {
-                "name": "domainName",
+                "name": "infaDomainName",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Informatica domain name",
                 "defaultValue": "Azure_Domain",
+                "toolTip": "Check Informatica 961HF3 commandline reference document.",
+                "constraints": {
+                    "required": true,
+                    "regex": "^[a-z0-9A-Z_]{1,30}$",
+                    "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+                }
+            },
+			{
+                "name": "infaDomainUser",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Informatica domain user",
+                "defaultValue": "Administrator",
                 "toolTip": "Check Informatica 961HF3 commandline reference document.",
                 "constraints": {
                     "required": true,
@@ -33,7 +45,7 @@
 				
             },
             {
-                "name": "infadomainEncryptionKeyword",
+                "name": "infaDomainEncryptionKeyword",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
                     "password": "Keyphrase for encryption for domain",
@@ -52,7 +64,7 @@
                 "name": "domainNodeCount",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Number of nodes required in the Informatica domain",
-                "defaultValue": "1",
+                "defaultValue": "2",
                 "toolTip": "Check Informatica 961HF3 commandline reference document.",
                 "constraints": {
                     "required": true,
@@ -63,84 +75,53 @@
         ],
         "steps": [
             {
-                "name": "infrastructureConfig",
-                "label": "Infrastructure settings",
+                "name": "databaseConfiguration",
+                "label": "Database settings",
                 "subLabel": {
-                    "preValidation": "Configure the infrastructure settings",
+                    "preValidation": "Configure the database settings",
                     "postValidation": "Done"
                 },
-                "bladeTitle": "Infrastructure settings",
+                "bladeTitle": "Database settings",
                 "elements": [
-                    {
-                        "name": "clusterName",
+                    {		
+                        "name": "databaseName",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "Cluster Prefix",
-                        "defaultValue": "dl",
-                        "toolTip": "Prefix for everything this template creates.",
+                        "label": "Database VM name",
                         "constraints": {
                             "required": true,
-                            "regex": "^[a-z0-9]{1,30}$",
-                            "validationMessage": "Only lowercase alphanumeric characters are allowed, and the value must be 1-30 characters long."
+                            "regex": "^[A-Za-z0-9_]{1,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscores are allowed, and the value must be 1-30 characters long."
                         },
                         "options": { }
                     },
+					{
+						"name": "dbVMAdminUsername",
+						"type": "Microsoft.Compute.UserNameTextBox",
+						"label": "Username",
+						"toolTip": "Admin username for the virtual machines.",
+						"osPlatform": "Windows"
+					},
+					{
+						"name": "dbVMAdminPassword",
+						"type": "Microsoft.Compute.CredentialsCombo",
+						"label": {
+							"password": "Password",
+							"confirmPassword": "Confirm password"
+						},
+						"toolTip": {
+							"password": "Admin password for the virtual machines."
+						},
+						"osPlatform": "Windows"
+					},
                     {
-                        "name": "slaveCount",
-                        "type": "Microsoft.Common.DropDown",
-                        "label": "Number of Slave VMs",
-                        "defaultValue": "2",
-                        "toolTip": "",
-                        "constraints": {
-                            "allowedValues": [
-                                {
-                                    "label": "2",
-                                    "value": 2
-                                },
-                                {
-                                    "label": "4",
-                                    "value": 4
-                                },
-                                {
-                                    "label": "6",
-                                    "value": 6
-                                },
-                                {
-                                    "label": "8",
-                                    "value": 8
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "name": "storageAccount",
-                        "type": "Microsoft.Storage.StorageAccountSelector",
-                        "label": "Storage account",
-                        "defaultValue": {
-                            "type": "Standard_LRS"
-                        }
-                    },
-                    {
-                        "name": "publicDnsName",
-                        "type": "Microsoft.Common.TextBox",
-                        "label": "Public DNS Name",
-                        "defaultValue": "",
-                        "toolTip": "",
-                        "constraints": {
-                            "required": true,
-                            "regex": "^[a-z0-9]{1,30}$",
-                            "validationMessage": "Only lowercase alphanumeric characters are allowed, and the value must be 1-30 characters long."
-                        },
-                        "options": { }
-                    },
-                    {
-                        "name": "repositoryVMSize",
+                        "name": "databaseVMSize",
                         "type": "Microsoft.Compute.SizeSelector",
-                        "label": "Repository Virtual machine size",
-                        "toolTip": "The size of the virtual machine for the repository and mongo database.",
+                        "label": "Database Virtual machine size",
+                        "toolTip": "The size of the virtual machine for the repository database.",
                         "recommendedSizes": [
-                            "Standard_D1",
-                            "Standard_D2",
-                            "Standard_D3"
+                            "Standard_D3",
+                            "Standard_D4",
+                            "Standard_D5"
                         ],
                         "constraints": {
                             "allowedSizes": [
@@ -161,60 +142,59 @@
                         },
                         "osPlatform": "Windows",
                         "imageReference": {
-                            "publisher": "thinkbox",
-                            "offer": "deadline7-2",
-                            "sku": "deadline-repository-7-2"
+                            "publisher": "MicrosoftSQLServer",
+                            "offer": "SQL2014-WS2012R2",
+                            "sku": "Enterprise"
                         },
                         "count": 1
-                    },
-                    {
-                        "name": "slaveVMSize",
-                        "type": "Microsoft.Compute.SizeSelector",
-                        "label": "Slave Virtual machine size",
-                        "toolTip": "The size of the virtual machine for the slaves.",
-                        "recommendedSizes": [
-                            "Standard_A1",
-                            "Standard_A2",
-                            "Standard_A3"
-                        ],
-                        "constraints": {
-                            "allowedSizes": [
-                                "Standard_A1",
-                                "Standard_A2",
-                                "Standard_A3",
-                                "Standard_A4",
-                                "Standard_A11",
-                                "Standard_D1",
-                                "Standard_D2",
-                                "Standard_D3",
-                                "Standard_D4",
-                                "Standard_D11",
-                                "Standard_D12",
-                                "Standard_D13",
-                                "Standard_D14"
-                            ]
-                        },
-                        "osPlatform": "Windows",
-                        "imageReference": {
-                            "publisher": "thinkbox",
-                            "offer": "deadline7-2",
-                            "sku": "deadline-slave-7-2"
-                        },
-                        "count": "[steps('infrastructureConfig').slaveCount]"
                     }
-                ]
+                ],
+				
+				{
+					"name": "infaDomainDBUser",
+					"type": "Microsoft.Common.TextBox",
+					"label": "Informatica domain database user",
+					"defaultValue": "",
+					"toolTip": "Check Informatica 961HF3 commandline reference document.",
+					"constraints": {
+						"required": true,
+						"regex": "^[a-z0-9A-Z_]{1,30}$",
+						"validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+					}
+				},
+				{
+					"name": "infaDomainDBPassword",
+					"type": "Microsoft.Common.PasswordBox",
+					"label": {
+						"password": "Informatica domain database password",
+						"confirmPassword": "Confirm Informatica domain database password"
+					},
+					"constraints": {
+						"required": true,
+						"regex": "^.{4,}$",
+						"validationMessage": "Password must at least 4 characters in length."
+					},
+					"options": {
+						"hideConfirmation": false
+					}
+					
+				}
             }
         ],
         "outputs": {
-            "location": "[location()]",
-            "adminUsername": "[basics('adminUsername')]",
-            "adminPassword": "[basics('adminPassword')]",
-            "newStorageAccount": "[steps('infrastructureConfig').storageAccount.name]",
-            "publicDnsName": "[steps('infrastructureConfig').publicDnsName]",
-            "clusterName": "[steps('infrastructureConfig').clusterName]",
-            "repositoryVMSize": "[steps('infrastructureConfig').repositoryVMSize]",
-            "slaveVMSize": "[steps('infrastructureConfig').slaveVMSize]",
-            "numberOfSlaves": "[steps('infrastructureConfig').slaveCount]"
+            "location": "[location()]",			
+			"infaDomainName": "[basics('infaDomainName')]",
+            "infaDomainUser": "[basics('infaDomainUser')]",
+            "infaDomainPassword": "[basics('infaDomainPassword')]",
+            "infaDomainEncryptionKeyword": "[basics('infaDomainEncryptionKeyword')]",
+            "domainNodeCount": "[basics('domainNodeCount')]",
+            "databaseConfiguration": "[steps('databaseConfiguration').storageAccount.name]",
+            "databaseName": "[steps('databaseConfiguration').storageAccount.name]",
+			"dbVMAdminUsername": "[steps('databaseConfiguration').storageAccount.name]",
+			"dbVMAdminPassword": "[steps('databaseConfiguration').storageAccount.name]",
+            "databaseVMSize": "[steps('databaseConfiguration').storageAccount.name]",
+			"infaDomainDBUser": "[steps('databaseConfiguration').storageAccount.name]",
+			"infaDomainDBPassword": "[steps('databaseConfiguration').storageAccount.name]"
         }
     }
 }
