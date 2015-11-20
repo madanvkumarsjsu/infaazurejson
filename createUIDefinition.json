@@ -179,7 +179,73 @@
                     }
                 ]
 
+            },
+            {
+                "name": "nodeVMConfiguration",
+                "label": "Node VM settings",
+                "subLabel": {
+                    "preValidation": "Configure the node VM settings",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Node VM settings",
+                "elements": [
+                    {
+                        "name": "databaseVMSize",
+                        "type": "Microsoft.Compute.SizeSelector",
+                        "label": "Database Virtual machine size",
+                        "toolTip": "The size of the virtual machine for the repository database.",
+                        "recommendedSizes": [
+                            "Standard_D3",
+                            "Standard_D4",
+                            "Standard_D5"
+                        ],
+                        "constraints": {
+                            "allowedSizes": [
+                                "Standard_A1",
+                                "Standard_A2",
+                                "Standard_A3",
+                                "Standard_A4",
+                                "Standard_A11",
+                                "Standard_D1",
+                                "Standard_D2",
+                                "Standard_D3",
+                                "Standard_D4",
+                                "Standard_D11",
+                                "Standard_D12",
+                                "Standard_D13",
+                                "Standard_D14"
+                            ]
+                        },
+                        "osPlatform": "Windows",
+                        "imageReference": {
+                            "publisher": "MicrosoftSQLServer",
+                            "offer": "SQL2014-WS2012R2",
+                            "sku": "Enterprise"
+                        },
+                        "count": 1
+                    },
+                    {
+                        "name": "dbVMAdminUsername",
+                        "type": "Microsoft.Compute.UserNameTextBox",
+                        "label": "Username",
+                        "toolTip": "Admin username for the virtual machines.",
+                        "osPlatform": "Windows"
+                    },
+                    {
+                        "name": "dbVMAdminPassword",
+                        "type": "Microsoft.Compute.CredentialsCombo",
+                        "label": {
+                            "password": "Password",
+                            "confirmPassword": "Confirm password"
+                        },
+                        "toolTip": {
+                            "password": "Admin password for the virtual machines."
+                        },
+                        "osPlatform": "Windows"
+                    }
+                ]
             }
+
         ],
         "outputs": {
             "location": "[location()]",
