@@ -131,32 +131,23 @@
                     }
                 ],
 				{
-					"name": "infaDomainDBUser",
-					"type": "Microsoft.Common.TextBox",
-					"label": "Informatica domain database user",
-					"defaultValue": "",
-					"toolTip": "Check Informatica 961HF3 commandline reference document.",
-					"constraints": {
-						"required": true,
-						"regex": "^[a-z0-9A-Z_]{1,30}$",
-						"validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
-					}
+					"name": "dbVMAdminUsername",
+					"type": "Microsoft.Compute.UserNameTextBox",
+					"label": "Username",
+					"toolTip": "Admin username for the virtual machines.",
+					"osPlatform": "Windows"
 				},
 				{
-					"name": "infaDomainDBPassword",
-					"type": "Microsoft.Common.PasswordBox",
+					"name": "dbVMAdminPassword",
+					"type": "Microsoft.Compute.CredentialsCombo",
 					"label": {
-						"password": "Informatica domain database password",
-						"confirmPassword": "Confirm Informatica domain database password"
+						"password": "Password",
+						"confirmPassword": "Confirm password"
 					},
-					"constraints": {
-						"required": true,
-						"regex": "^.{4,}$",
-						"validationMessage": "Password must at least 4 characters in length."
+					"toolTip": {
+					"password": "Admin password for the virtual machines."
 					},
-					"options": {
-						"hideConfirmation": false
-					}
+					"osPlatform": "Windows"
 				}
             }
         ],
