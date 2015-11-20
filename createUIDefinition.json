@@ -148,7 +148,7 @@
                         },
                         "osPlatform": "Windows"
                     },
-					{
+                    {
                         "name": "infaDomainDBUser",
                         "type": "Microsoft.Common.TextBox",
                         "label": "Informatica domain DB user",
@@ -178,6 +178,7 @@
 
                     }
                 ]
+
             }
         ],
         "outputs": {
