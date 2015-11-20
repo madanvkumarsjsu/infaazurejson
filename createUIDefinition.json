@@ -3,12 +3,6 @@
     "version": "0.0.1-preview",
     "parameters": {
         "basics": [
-			"label": "Informatica configurations",
-            "subLabel": {
-                "preValidation": "Configure the informatica domain",
-                "postValidation": "Done"
-            },
-            "bladeTitle": "Informatica configurations",
             {
                 "name": "infaDomainName",
                 "type": "Microsoft.Common.TextBox",
@@ -135,30 +129,58 @@
                         },
                         "count": 1
                     },
-					{
-					"name": "dbVMAdminUsername",
-					"type": "Microsoft.Compute.UserNameTextBox",
-					"label": "Username",
-					"toolTip": "Admin username for the virtual machines.",
-					"osPlatform": "Windows"
-				},
-				{
-					"name": "dbVMAdminPassword",
-					"type": "Microsoft.Compute.CredentialsCombo",
-					"label": {
-						"password": "Password",
-						"confirmPassword": "Confirm password"
-					},
-					"toolTip": {
-					"password": "Admin password for the virtual machines."
-					},
-					"osPlatform": "Windows"
-				}
+                    {
+                        "name": "dbVMAdminUsername",
+                        "type": "Microsoft.Compute.UserNameTextBox",
+                        "label": "Username",
+                        "toolTip": "Admin username for the virtual machines.",
+                        "osPlatform": "Windows"
+                    },
+                    {
+                        "name": "dbVMAdminPassword",
+                        "type": "Microsoft.Compute.CredentialsCombo",
+                        "label": {
+                            "password": "Password",
+                            "confirmPassword": "Confirm password"
+                        },
+                        "toolTip": {
+                            "password": "Admin password for the virtual machines."
+                        },
+                        "osPlatform": "Windows"
+                    }
                 ],
-				[
-				
-				]
-				
+                "elemensts":  [
+                    {
+                        "name": "infaDomainDBUser",
+                        "type": "Microsoft.Common.TextBox",
+                        "label": "Informatica domain DB user",
+                        "defaultValue": "",
+                        "toolTip": "Check Informatica 961HF3 commandline reference document.",
+                        "constraints": {
+                            "required": true,
+                            "regex": "^[a-z0-9A-Z_]{1,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+                        }
+                    },
+                    {
+                        "name": "infaDomainPassword",
+                        "type": "Microsoft.Common.PasswordBox",
+                        "label": {
+                            "password": "Informatica domain DB password",
+                            "confirmPassword": "Confirm Informatica domain DB password"
+                        },
+                        "constraints": {
+                            "required": true,
+                            "regex": "^.{4,}$",
+                            "validationMessage": "Password must at least 4 characters in length."
+                        },
+                        "options": {
+                            "hideConfirmation": false
+                        }
+
+                    }
+                ]
+
             }
         ],
         "outputs": {
