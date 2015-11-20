@@ -3,6 +3,12 @@
     "version": "0.0.1-preview",
     "parameters": {
         "basics": [
+			"label": "Informatica configurations",
+            "subLabel": {
+                "preValidation": "Configure the informatica domain",
+                "postValidation": "Done"
+            },
+            "bladeTitle": "Informatica configurations",
             {
                 "name": "infaDomainName",
                 "type": "Microsoft.Common.TextBox",
@@ -148,7 +154,10 @@
 					},
 					"osPlatform": "Windows"
 				}
-                ]
+                ],
+				[
+				
+				]
 				
             }
         ],
