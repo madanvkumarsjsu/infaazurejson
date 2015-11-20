@@ -128,9 +128,8 @@
                             "sku": "Enterprise"
                         },
                         "count": 1
-                    }
-                ],
-				{
+                    },
+					{
 					"name": "dbVMAdminUsername",
 					"type": "Microsoft.Compute.UserNameTextBox",
 					"label": "Username",
@@ -149,6 +148,8 @@
 					},
 					"osPlatform": "Windows"
 				}
+                ]
+				
             }
         ],
         "outputs": {
