@@ -15,7 +15,7 @@
                     "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
                 }
             },
-			{
+            {
                 "name": "infaDomainUser",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Informatica domain user",
@@ -42,7 +42,7 @@
                 "options": {
                     "hideConfirmation": false
                 }
-				
+
             },
             {
                 "name": "infaDomainEncryptionKeyword",
@@ -83,7 +83,7 @@
                 },
                 "bladeTitle": "Database settings",
                 "elements": [
-                    {		
+                    {
                         "name": "databaseName",
                         "type": "Microsoft.Common.TextBox",
                         "label": "Database VM name",
@@ -129,23 +129,51 @@
                         },
                         "count": 1
                     }
-                ]
+                ],
+				{
+					"name": "infaDomainDBUser",
+					"type": "Microsoft.Common.TextBox",
+					"label": "Informatica domain database user",
+					"defaultValue": "",
+					"toolTip": "Check Informatica 961HF3 commandline reference document.",
+					"constraints": {
+						"required": true,
+						"regex": "^[a-z0-9A-Z_]{1,30}$",
+						"validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+					}
+				},
+				{
+					"name": "infaDomainDBPassword",
+					"type": "Microsoft.Common.PasswordBox",
+					"label": {
+						"password": "Informatica domain database password",
+						"confirmPassword": "Confirm Informatica domain database password"
+					},
+					"constraints": {
+						"required": true,
+						"regex": "^.{4,}$",
+						"validationMessage": "Password must at least 4 characters in length."
+					},
+					"options": {
+						"hideConfirmation": false
+					}
+				}
             }
         ],
         "outputs": {
-            "location": "[location()]",			
-			"infaDomainName": "[basics('infaDomainName')]",
+            "location": "[location()]",
+            "infaDomainName": "[basics('infaDomainName')]",
             "infaDomainUser": "[basics('infaDomainUser')]",
             "infaDomainPassword": "[basics('infaDomainPassword')]",
             "infaDomainEncryptionKeyword": "[basics('infaDomainEncryptionKeyword')]",
             "domainNodeCount": "[basics('domainNodeCount')]",
             "databaseConfiguration": "[steps('databaseConfiguration').storageAccount.name]",
             "databaseName": "[steps('databaseConfiguration').storageAccount.name]",
-			"dbVMAdminUsername": "[steps('databaseConfiguration').storageAccount.name]",
-			"dbVMAdminPassword": "[steps('databaseConfiguration').storageAccount.name]",
+            "dbVMAdminUsername": "[steps('databaseConfiguration').storageAccount.name]",
+            "dbVMAdminPassword": "[steps('databaseConfiguration').storageAccount.name]",
             "databaseVMSize": "[steps('databaseConfiguration').storageAccount.name]",
-			"infaDomainDBUser": "[steps('databaseConfiguration').storageAccount.name]",
-			"infaDomainDBPassword": "[steps('databaseConfiguration').storageAccount.name]"
+            "infaDomainDBUser": "[steps('databaseConfiguration').storageAccount.name]",
+            "infaDomainDBPassword": "[steps('databaseConfiguration').storageAccount.name]"
         }
     }
 }
