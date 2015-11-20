@@ -147,10 +147,8 @@
                             "password": "Admin password for the virtual machines."
                         },
                         "osPlatform": "Windows"
-                    }
-                ],
-                "elemensts":  [
-                    {
+                    },
+					{
                         "name": "infaDomainDBUser",
                         "type": "Microsoft.Common.TextBox",
                         "label": "Informatica domain DB user",
@@ -180,7 +178,6 @@
 
                     }
                 ]
-
             }
         ],
         "outputs": {
