@@ -94,25 +94,6 @@
                         },
                         "options": { }
                     },
-					{
-						"name": "dbVMAdminUsername",
-						"type": "Microsoft.Compute.UserNameTextBox",
-						"label": "Username",
-						"toolTip": "Admin username for the virtual machines.",
-						"osPlatform": "Windows"
-					},
-					{
-						"name": "dbVMAdminPassword",
-						"type": "Microsoft.Compute.CredentialsCombo",
-						"label": {
-							"password": "Password",
-							"confirmPassword": "Confirm password"
-						},
-						"toolTip": {
-							"password": "Admin password for the virtual machines."
-						},
-						"osPlatform": "Windows"
-					},
                     {
                         "name": "databaseVMSize",
                         "type": "Microsoft.Compute.SizeSelector",
