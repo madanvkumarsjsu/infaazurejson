@@ -24,6 +24,7 @@
                 },
                 "constraints": {
                     "required": true,
+                    "regex": "^.{4,}$",
                     "validationMessage": "Password must at least 4 characters in length."
                 },
                 "options": {
@@ -40,7 +41,8 @@
                 },
                 "constraints": {
                     "required": true,
-                    "validationMessage": "keyphrase must at least 8 characters in length."
+                    "regex": "^.{8,}$",
+                    "validationMessage": "Keyphrase must at least 8 characters in length."
                 },
                 "options": {
                     "hideConfirmation": false
