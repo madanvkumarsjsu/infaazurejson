@@ -65,7 +65,11 @@
             "type": "Microsoft.Compute.UserNameTextBox",
             "label": "Username",
             "toolTip": "Admin username for the virtual machines.",
-            "osPlatform": "Windows"
+            "osPlatform": "Windows",
+            "constraints": {
+              "required": true,
+              "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+            }
           },
           {
             "name": "dbVMAdminPassword",
@@ -77,7 +81,10 @@
             "toolTip": {
               "password": "Admin password for the virtual machines."
             },
-            "osPlatform": "Windows"
+            "osPlatform": "Windows",
+            "constraints": {
+              "required": true
+            }
           },
           {
             "name": "infaDomainDBUser",
@@ -106,7 +113,6 @@
             "options": {
               "hideConfirmation": false
             }
-
           },
           {
             "name": "domainNodeCount",
@@ -115,9 +121,7 @@
             "defaultValue": "2",
             "toolTip": "Check Informatica 961HF3 commandline reference document.",
             "constraints": {
-              "required": true,
-              "regex": "^[0-9]{1,}$",
-              "validationMessage": "Only alphanumeric characters and underscore are allowed, and the value must be 1-30"
+              "required": true
             }
           }
         ]
@@ -171,7 +175,10 @@
             "type": "Microsoft.Compute.UserNameTextBox",
             "label": "Username",
             "toolTip": "Admin username for the virtual machines.",
-            "osPlatform": "Windows"
+            "osPlatform": "Windows",
+            "constraints": {
+              "required": true
+            }
           },
           {
             "name": "dbVMAdminPassword",
@@ -183,7 +190,10 @@
             "toolTip": {
               "password": "Admin password for the virtual machines."
             },
-            "osPlatform": "Windows"
+            "osPlatform": "Windows",
+            "constraints": {
+              "required": true
+            }
           }
         ]
       },
