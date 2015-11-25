@@ -260,7 +260,7 @@
               "validationMessage": "Keyphrase must at least 8 characters in length."
             },
             "options": {
-              "hideConfirmation": false
+              "hideConfirmation": true
             }
           }
         ]
