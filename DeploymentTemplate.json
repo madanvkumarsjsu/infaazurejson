@@ -1,0 +1,543 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "TemInfaDomainName": {
+            "type": "string",
+            "minLength": 4
+        },
+        "TemInfaDomainUser": {
+            "type": "string",
+            "minLength": 4
+        },
+        "TemInfaDomainPassword": {
+            "type": "securestring",
+            "minLength": 4
+        },
+        "TemInfaNodeNamePrefix": {
+            "type": "string",
+            "minLength": 4
+        },
+        "TemInfaKeyWord": {
+            "type": "securestring",
+            "minLength": 4
+        },
+        "TemDBUser": {
+            "type": "string",
+            "minLength": 4,
+            "metadata": {
+                "description": "Domain DB user"
+            }
+        },
+        "TemDBPassword": {
+            "type": "securestring",
+            "minLength": 4,
+            "metadata": {
+                "description": "Domain DB user"
+            }
+        },
+
+
+        "Tem2StoreName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "Tem2StoreType": {
+            "type": "string",
+            "defaultValue": "Standard_LRS",
+            "allowedValues": [
+                "Standard_LRS",
+                "Standard_GRS",
+                "Standard_ZRS"
+            ]
+        },
+        "Tem2VMSize": {
+            "type": "string",
+            "defaultValue": "Standard_D3",
+            "allowedValues": [
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3"
+            ]
+        },
+        "Tem2VM01Name": {
+            "type": "string",
+            "minLength": 1
+        },
+        "Tem2VM01AdminUserName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "Tem2VM01AdminPassword": {
+            "type": "securestring"
+        },
+        "Tem2PubIPDnsName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "Tem2VM02Name": {
+            "type": "string",
+            "minLength": 1
+        },
+        "Tem2VM02AdminUserName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "Tem2VM02AdminPassword": {
+            "type": "securestring"
+        },
+        "Tem2VM03Name": {
+            "type": "string",
+            "minLength": 1
+        },
+        "Tem2VM03AdminUserName": {
+            "type": "string",
+            "minLength": 1
+        },
+        "Tem2VM03AdminPassword": {
+            "type": "securestring"
+        },
+        "Tem2VMCount": { 
+            "type": "int"
+        }
+    },
+    "variables": {
+        "TemStrPrefix": "Tem",
+
+        "Tem2VNETPrefix": "10.0.0.0/16",
+        "Tem2VNETSubnet1Name": "Subnet-1",
+        "Tem2VNETSubnet1Prefix": "10.0.0.0/24",
+        "Tem2VM01ImagePublisher": "MicrosoftWindowsServer",
+        "Tem2VM01ImageOffer": "WindowsServer",
+        "Tem2VM01OSDiskName": "Tem2VM01OSDisk",
+
+        "Tem2VM01VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'Tem2VNET')]",
+        "Tem2VM01SubnetRef": "[concat(variables('Tem2VM01VnetID'), '/subnets/', variables('Tem2VNETSubnet1Name'))]",
+        "Tem2VM01StorageAccountContainerName": "vhds",
+        "Tem2VM01NicName": "[concat(parameters('Tem2VM01Name'), 'NetworkInterface')]",
+        "InfaCustomeDBVMImage": "https://ispstorenp.blob.core.windows.net/copiedvhds/SQLServer2014C01-os-2015-11-29.vhd",
+        "InfaCustomeVMImage": "https://ispstorenp.blob.core.windows.net/copiedvhds/InfaBaseWin1202-os-2015-11-29.vhd",
+
+        "osType": "windows",
+        "Tem2PubIP01Name": "Tem2PubIP01",
+        "TemExtScriptURI": "https://raw.githubusercontent.com/vijayanand17/infascripts/master/",
+        "TemExtCDBScriptFile": "createsqldbuser.ps1",
+        "TemExtWIScriptFile": "wininfainstaller.ps1",
+        "Tem2VM02ImagePublisher": "MicrosoftWindowsServer",
+        "Tem2VM02ImageOffer": "WindowsServer",
+        "Tem2VM02OSDiskName": "Tem2VM02OSDisk",
+        "Tem2VM02VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'Tem2VNET')]",
+        "Tem2VM02SubnetRef": "[concat(variables('Tem2VM02VnetID'), '/subnets/', variables('Tem2VNETSubnet1Name'))]",
+        "Tem2VM02StorageAccountContainerName": "vhds",
+        "Tem2VM02NicName": "[concat(parameters('Tem2VM02Name'), 'NetworkInterface')]",
+        "TemNetworkSecurityGroupName": "InfaNetworkSecurityGroup",
+
+        "TemInfaNode1Port": 6005,
+        "TemInfaDBType": "MSSQLSERVER",
+        "TemInfaDBName": "model",
+        "TemInfaDBPort": "1433",
+        "TemInfaNode1MasterFlag": 0,
+        "Tem2VM03ImagePublisher": "MicrosoftWindowsServer",
+        "Tem2VM03ImageOffer": "WindowsServer",
+        "Tem2VM03OSDiskName": "Tem2VM03OSDisk",
+        "Tem2VM03VmSize": "Standard_D1",
+        "Tem2VM03VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'Tem2VNET')]",
+        "Tem2VM03SubnetRef": "[concat(variables('Tem2VM03VnetID'), '/subnets/', variables('Tem2VNETSubnet1Name'))]",
+        "Tem2VM03StorageAccountContainerName": "vhds",
+        "Tem2VM03NicName": "[concat(parameters('Tem2VM03Name'), 'NetworkInterface')]",
+
+        "Tem2ImagePublisher": "MicrosoftSQLServer",
+        "Tem2ImageOffer": "SQL2014-WS2012R2",
+        "Tem2WindowsOSVersion": "Enterprise",
+
+        "InfaCustomVMDisk1": "[concat('https://ispstorenp.blob.core.windows.net/copiedvhds/', 'InfaBaseVM01.osdisk.HackFest.vhd')]",
+        "InfaCustomVMDisk2": "[concat('https://ispstorenp.blob.core.windows.net/copiedvhds/', 'InfaBaseVM02.osdisk.HackFest.vhd')]",
+        "InfaCustomVMDisk3": "[concat('https://ispstorenp.blob.core.windows.net/copiedvhds/', 'InfaBaseVM03.osdisk.HackFest.vhd')]"
+    },
+    "resources": [
+        {
+            "name": "[parameters('Tem2StoreName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "Tem2Store"
+            },
+            "properties": {
+                "accountType": "[parameters('Tem2StoreType')]"
+            }
+        },
+        {
+            "name": "Tem2VNET",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "Tem2VNET"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('TemNetworkSecurityGroupName'))]"
+            ],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('Tem2VNETPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('Tem2VNETSubnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('Tem2VNETSubnet1Prefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('TemNetworkSecurityGroupName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[variables('Tem2VM01NicName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', 'Tem2VNET')]"
+            ],
+            "tags": {
+                "displayName": "Tem2VM01Nic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('Tem2VM01SubnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('Tem2VM01Name')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('Tem2StoreName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('Tem2VM01NicName'))]"
+            ],
+            "tags": {
+                "displayName": "Tem2VM01"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Tem2VMSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Tem2VM01Name')]",
+                    "adminUsername": "[parameters('Tem2VM01AdminUsername')]",
+                    "adminPassword": "[parameters('Tem2VM01AdminPassword')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "Tem2VM01OSDisk",
+                        "osType": "[variables('osType')]",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "[variables('InfaCustomeDBVMImage')]"
+                        },
+                        "vhd": {
+                            "uri": "[variables('InfaCustomVMDisk1')]"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('Tem2VM01NicName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "name": "TemScriptExt",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2015-06-15",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', parameters('Tem2VM01Name'))]"
+                    ],
+                    "tags": {
+                        "displayName": "TemScriptExt"
+                    },
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.2",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "[concat(variables('TemExtScriptURI'),  variables('TemExtCDBScriptFile'))]"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('TemExtCDBScriptFile'), ' -dbUserName ', parameters('TemDBUser'), ' -dbPassword ', parameters('TemDBPassword'))]"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[variables('Tem2PubIP01Name')]",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "Tem2PubIP01"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('Tem2PubIPDnsName')]"
+                }
+            }
+        },
+        {
+            "name": "[variables('Tem2VM02NicName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', 'Tem2VNET')]",
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('Tem2PubIP01Name'))]"
+            ],
+            "tags": {
+                "displayName": "Tem2VM02Nic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('Tem2VM02SubnetRef')]"
+                            },
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('Tem2PubIP01Name'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('Tem2VM02Name')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('Tem2StoreName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('Tem2VM02NicName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('Tem2VM01Name'))]"
+            ],
+            "tags": {
+                "displayName": "Tem2VM02"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Tem2VMSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Tem2VM02Name')]",
+                    "adminUsername": "[parameters('Tem2VM02AdminUsername')]",
+                    "adminPassword": "[parameters('Tem2VM02AdminPassword')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "Tem2VM02OSDisk",
+                        "osType": "[variables('osType')]",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "[variables('InfaCustomeVMImage')]"
+                        },
+                        "vhd": {
+                            "uri": "[variables('InfaCustomVMDisk2')]"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('Tem2VM02NicName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "name": "TemScriptExtDVM",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2015-06-15",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', parameters('Tem2VM02Name'))]"
+                    ],
+                    "tags": {
+                        "displayName": "TemScriptExtDVM"
+                    },
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.2",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "[concat(variables('TemExtScriptURI'),  variables('TemExtWIScriptFile'))]"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('TemExtWIScriptFile'), ' -domainHost ', parameters('Tem2VM02Name'), ' -domainName ', parameters('TemInfaDomainName'), ' -domainUser ', parameters('TemInfaDomainUser'), ' -domainPassword ', parameters('TemInfaDomainPassword'), ' -nodeName ', parameters('TemInfaNodeNamePrefix'), '1', ' -nodePort ', variables('TemInfaNode1Port'), ' -dbType ', variables('TemInfaDBType'), ' -dbName ', variables('TemInfaDBName'), ' -dbUser ', parameters('TemDBUser'), ' -dbPassword ', parameters('TemDBPassword'), ' -dbHost ', parameters('Tem2VM01Name'), ' -dbPort ', variables('TemInfaDBPort'), ' -sitekeyKeyword ', parameters('TemInfaKeyWord'), ' -joinDomain ', variables('TemInfaNode1MasterFlag'), ' -osUserName ', parameters('Tem2VM02AdminUserName'))]"
+                        }
+                    }
+                }
+            ]
+        },
+
+        {
+            "apiVersion": "2015-05-01-preview",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[variables('TemNetworkSecurityGroupName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "TemNetworkSecurityGroup"
+            },
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "InformaticaTCPRule",
+                        "properties": {
+                            "description": "Enable first 10000 port. This just for testing.",
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+
+
+
+        {
+            "name": "[variables('Tem2VM03NicName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', 'Tem2VNET')]"
+            ],
+            "tags": {
+                "displayName": "Tem2VM03Nic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('Tem2VM03SubnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('Tem2VM03Name')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('Tem2StoreName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('Tem2VM03NicName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('Tem2VM02Name'))]"
+            ],
+            "tags": {
+                "displayName": "Tem2VM03"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('Tem2VMSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('Tem2VM03Name')]",
+                    "adminUsername": "[parameters('Tem2VM03AdminUsername')]",
+                    "adminPassword": "[parameters('Tem2VM03AdminPassword')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "Tem2VM03OSDisk",
+                        "osType": "[variables('osType')]",
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "[variables('InfaCustomeVMImage')]"
+                        },
+                        "vhd": {
+                            "uri": "[variables('InfaCustomVMDisk3')]"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('Tem2VM03NicName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "name": "TemScriptExtGVM",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2015-06-15",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', parameters('Tem2VM03Name'))]"
+                    ],
+                    "tags": {
+                        "displayName": "TemScriptExtGVM"
+                    },
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.2",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "[concat(variables('TemExtScriptURI'),  variables('TemExtWIScriptFile'))]"
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', variables('TemExtWIScriptFile'), ' -domainHost ', parameters('Tem2VM02Name'), ' -domainName ', parameters('TemInfaDomainName'), ' -domainUser ', parameters('TemInfaDomainUser'), ' -domainPassword ', parameters('TemInfaDomainPassword'), ' -nodeName ', parameters('TemInfaNodeNamePrefix'), '2', ' -nodePort ', variables('TemInfaNode1Port'), ' -dbType ', variables('TemInfaDBType'), ' -dbName ', variables('TemInfaDBName'), ' -dbUser ', parameters('TemDBUser'), ' -dbPassword ', parameters('TemDBPassword'), ' -dbHost ', parameters('Tem2VM01Name'), ' -dbPort ', variables('TemInfaDBPort'), ' -sitekeyKeyword ', parameters('TemInfaKeyWord'), ' -joinDomain 1 -osUserName ', parameters('Tem2VM03AdminUserName'))]"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {
+    }
+}

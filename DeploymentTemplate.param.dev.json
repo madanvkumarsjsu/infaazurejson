@@ -1,0 +1,63 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Tem2StoreName": {
+            "value": "TemStoreHFest"
+        },
+        "Tem2VM01Name": {
+            "value": "TemVM01"
+        },
+        "Tem2VM01AdminUserName": {
+            "value": "devuser"
+        },
+        "Tem2VM01AdminPassword": {
+            "value": "tempBG@2008"
+        },
+        "TemDBUser": {
+            "value": "user1"
+        },
+        "TemDBPassword": {
+            "value": "tempBG@2008"
+        },
+        "Tem2PubIPDnsName": {
+            "value": "temdnshfest"
+        },
+        "TemInfaDomainName": {
+            "value": "ISPDomain"
+        },
+        "TemInfaDomainUser": {
+            "value": "Admin"
+        },
+        "TemInfaDomainPassword": {
+            "value": "Admin"
+        },
+        "TemInfaKeyWord": {
+            "value": "ISPDomain123"
+        },
+        "Tem2VM02Name": {
+            "value": "TemVM02"
+        },
+        "Tem2VM02AdminUserName": {
+            "value": "devuser"
+        },
+        "Tem2VM02AdminPassword": {
+            "value": "tempBG@2008"
+        },
+        "Tem2VM03Name": {
+            "value": "TemVM03"
+        },
+        "Tem2VM03AdminUserName": {
+            "value": "devuser"
+        },
+        "Tem2VM03AdminPassword": {
+            "value": "tempBG@2008"
+        },
+        "Tem2VMCount": {
+            "value": 3
+        },
+        "TemInfaNodeNamePrefix": {
+            "value": "ISPNode"
+        }
+    }
+}
