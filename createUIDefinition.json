@@ -5,14 +5,6 @@
     "basics": [
     ],
     "steps": [
-	   {
-			"name": "storageAccount",
-            "type": "Microsoft.Storage.StorageAccountSelector",
-            "label": "Storage account",
-            "defaultValue": {
-				"type": "Standard_LRS"
-            }
-        },
       {
         "name": "nodeVMConfiguration",
         "label": "Node virtual machines settings",
@@ -22,6 +14,15 @@
         },
         "bladeTitle": "Node virtual machines settings",
         "elements": [
+		  {
+			"name": "storageAccount",
+            "type": "Microsoft.Storage.StorageAccountSelector",
+            "label": "Storage account",
+			"toolTip": "Storage account used for deploying virtual machines.",
+            "defaultValue": {
+				"type": "Standard_LRS"
+            }
+          },
 		  {
             "name": "nodeVMPrefix",
             "type": "Microsoft.Common.TextBox",
