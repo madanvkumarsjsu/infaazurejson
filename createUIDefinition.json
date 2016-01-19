@@ -3,16 +3,16 @@
   "version": "0.0.1-preview",
   "parameters": {
     "basics": [
-		{
+    ],
+    "steps": [
+	   {
 			"name": "storageAccount",
             "type": "Microsoft.Storage.StorageAccountSelector",
             "label": "Storage account",
             "defaultValue": {
 				"type": "Standard_LRS"
             }
-        }
-    ],
-    "steps": [
+        },
       {
         "name": "nodeVMConfiguration",
         "label": "Node virtual machines settings",
