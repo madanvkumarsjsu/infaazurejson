@@ -291,7 +291,7 @@
 	  "storageAccountNewOrExisting" : "[steps('infrastructureConfig').storageAccount.newOrExisting]",
       "storageAccountName": "[steps('nodeVMConfiguration').storageAccount.name]",
       "storageAccountType": "[steps('nodeVMConfiguration').storageAccount.type]",
-	  "existingStorageAccountRG": "[steps('nodeVMConfiguration').storageAccount.resourceGroup]"
+	  "existingStorageAccountRG": "[steps('nodeVMConfiguration').storageAccount.resourceGroup]",
 	  "nodeVMPrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
 	  "nodeVMAdminUsername": "[steps('nodeVMConfiguration').nodeVMAdminUsername]",
 	  "nodeVMAdminPassword": "[steps('nodeVMConfiguration').nodeVMAdminPassword]",
