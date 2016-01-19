@@ -107,7 +107,7 @@
           {
             "name": "databaseName",
             "type": "Microsoft.Common.TextBox",
-            "label": "Database VM name",
+            "label": "Database virtual machine name",
             "constraints": {
               "required": true,
               "regex": "^[A-Za-z0-9_]{1,30}$",
@@ -189,7 +189,7 @@
             }
           },
           {
-            "name": "infaDomainPassword",
+            "name": "infaDomainDBPassword",
             "type": "Microsoft.Common.PasswordBox",
             "label": {
               "password": "Informatica domain DB password",
@@ -202,16 +202,6 @@
             },
             "options": {
               "hideConfirmation": false
-            }
-          },
-          {
-            "name": "domainNodeCount",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Number of nodes required in the Informatica domain",
-            "defaultValue": "2",
-            "toolTip": "Check Informatica 961HF3 commandline reference document.",
-            "constraints": {
-              "required": true
             }
           }
         ]
@@ -281,6 +271,16 @@
             "options": {
               "hideConfirmation": true
             }
+          },
+		  {
+            "name": "domainNodeCount",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Number of nodes required in the Informatica domain",
+            "defaultValue": "2",
+            "toolTip": "Check Informatica 961HF3 commandline reference document.",
+            "constraints": {
+              "required": true
+            }
           }
         ]
       }
@@ -288,18 +288,23 @@
 	
     "outputs": {
       "location": "[location()]",
-      "infaDomainName": "[basics('infaDomainName')]",
-      "infaDomainUser": "[basics('infaDomainUser')]",
-      "infaDomainPassword": "[basics('infaDomainPassword')]",
-      "infaDomainEncryptionKeyword": "[basics('infaDomainEncryptionKeyword')]",
-      "domainNodeCount": "[basics('domainNodeCount')]",
-      "databaseConfiguration": "[steps('databaseConfiguration').storageAccount.name]",
-      "databaseName": "[steps('databaseConfiguration').storageAccount.name]",
-      "dbVMAdminUsername": "[steps('databaseConfiguration').storageAccount.name]",
-      "dbVMAdminPassword": "[steps('databaseConfiguration').storageAccount.name]",
-      "databaseVMSize": "[steps('databaseConfiguration').storageAccount.name]",
-      "infaDomainDBUser": "[steps('databaseConfiguration').storageAccount.name]",
-      "infaDomainDBPassword": "[steps('databaseConfiguration').storageAccount.name]"
+	  "storageAccountNewOrExisting" : "[steps('infrastructureConfig').storageAccount.newOrExisting]",
+      "storageAccountName": "[steps('nodeVMConfiguration').storageAccount.name]",
+      "storageAccountType": "[steps('nodeVMConfiguration').storageAccount.type]",
+	  "existingStorageAccountRG": "[steps('nodeVMConfiguration').storageAccount.resourceGroup]"
+	  "nodeVMPrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
+	  "nodeVMAdminUsername": "[steps('nodeVMConfiguration').nodeVMAdminUsername]",
+	  "nodeVMAdminPassword": "[steps('nodeVMConfiguration').nodeVMAdminPassword]",
+	  "databaseName": "[steps('databaseConfiguration').databaseName]",
+	  "databaseVMSize": "[steps('databaseConfiguration').databaseVMSize]",
+	  "dbVMAdminUsername": "[steps('databaseConfiguration').dbVMAdminUsername]",
+	  "dbVMAdminPassword": "[steps('databaseConfiguration').dbVMAdminPassword]",
+	  "infaDomainDBUser": "[steps('databaseConfiguration').infaDomainDBUser]",
+	  "infaDomainDBPassword": "[steps('databaseConfiguration').infaDomainDBPassword]",
+	  "infaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
+	  "infaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
+	  "infaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
+	  "domainNodeCount": "[steps('infaDomainConfiguration').domainNodeCount]"
     }
   }
 }
