@@ -3,36 +3,54 @@
   "version": "0.0.1-preview",
   "parameters": {
     "basics": [
+		{
+			"name": "storageAccount",
+            "type": "Microsoft.Storage.StorageAccountSelector",
+            "label": "Storage account",
+            "defaultValue": {
+				"type": "Standard_LRS"
+            }
+        }
     ],
     "steps": [
       {
         "name": "nodeVMConfiguration",
-        "label": "Node VM settings",
+        "label": "Node virtual machines settings",
         "subLabel": {
-          "preValidation": "Configure the node VM settings",
+          "preValidation": "Configure the node virtual machines settings",
           "postValidation": "Done"
         },
-        "bladeTitle": "Node VM settings",
+        "bladeTitle": "Node virtual machines settings",
         "elements": [
+		  {
+            "name": "nodeVMPrefix",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Node virtual machine prefix",
+            "defaultValue": "VM",
+            "toolTip": "Prefix for the virtual machines name.",
+            "constraints": {
+              "required": true
+            }
+          },
           {
-            "name": "dbVMAdminUsername",
+            "name": "nodeVMAdminUsername",
             "type": "Microsoft.Compute.UserNameTextBox",
             "label": "Username",
-            "toolTip": "Admin username for the virtual machines.",
+            "toolTip": "Administrator username for the virtual machines.",
             "osPlatform": "Windows",
             "constraints": {
               "required": true
             }
           },
           {
-            "name": "dbVMAdminPassword",
+            "name": "nodeVMAdminPassword",
             "type": "Microsoft.Compute.CredentialsCombo",
             "label": {
               "password": "Password",
               "confirmPassword": "Confirm password"
             },
             "toolTip": {
-              "password": "Admin password for the virtual machines."
+              "password": "Administrator password for the virtual machines."
             },
             "osPlatform": "Windows",
             "constraints": {
@@ -266,6 +284,7 @@
         ]
       }
     ],
+	
     "outputs": {
       "location": "[location()]",
       "infaDomainName": "[basics('infaDomainName')]",
