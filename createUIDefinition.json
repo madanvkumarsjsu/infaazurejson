@@ -24,6 +24,25 @@
             }
           },
 		  {
+            "name": "nodeVMOS",
+            "type": "Microsoft.Common.DropDown",
+            "label": "Node virtual machine OS",
+            "defaultValue": "1",
+            "toolTip": "Operating system of the node virtual machine.",
+            "constraints": {
+              "allowedValues": [
+                {
+                  "label": "Ubuntu 14",
+                  "value": "linux"
+                },
+                {
+                  "label": "Windows 2014",
+                  "value": "Windows"
+                }
+              ]
+            }
+          },
+		  {
             "name": "nodeVMPrefix",
             "type": "Microsoft.Common.TextBox",
             "label": "Node virtual machine prefix",
@@ -291,7 +310,20 @@
 	  "storageAccountNewOrExisting" : "[steps('infrastructureConfig').storageAccount.newOrExisting]",
       "storageAccountName": "[steps('nodeVMConfiguration').storageAccount.name]",
       "storageAccountType": "[steps('nodeVMConfiguration').storageAccount.type]",
-	  "existingStorageAccountRG": "[steps('nodeVMConfiguration').storageAccount.resourceGroup]"
+	  "existingStorageAccountRG": "[steps('nodeVMConfiguration').storageAccount.resourceGroup]",
+	  "nodeVMPrefix": "[steps('nodeVMConfiguration').nodeVMPrefix]",
+	  "nodeVMAdminUsername": "[steps('nodeVMConfiguration').nodeVMAdminUsername]",
+	  "nodeVMAdminPassword": "[steps('nodeVMConfiguration').nodeVMAdminPassword]",
+	  "databaseName": "[steps('databaseConfiguration').databaseName]",
+	  "databaseVMSize": "[steps('databaseConfiguration').databaseVMSize]",
+	  "dbVMAdminUsername": "[steps('databaseConfiguration').dbVMAdminUsername]",
+	  "dbVMAdminPassword": "[steps('databaseConfiguration').dbVMAdminPassword]",
+	  "infaDomainDBUser": "[steps('databaseConfiguration').infaDomainDBUser]",
+	  "infaDomainDBPassword": "[steps('databaseConfiguration').infaDomainDBPassword]",
+	  "infaDomainName": "[steps('infaDomainConfiguration').infaDomainName]",
+	  "infaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
+	  "infaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
+	  "domainNodeCount": "[steps('infaDomainConfiguration').domainNodeCount]"
     }
   }
 }
