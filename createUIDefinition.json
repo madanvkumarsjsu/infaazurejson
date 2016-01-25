@@ -30,7 +30,7 @@
 							"addressPrefixSize": "10.1.0.0/16"
 						},
 						"constraints": {
-							"minAddressPrefixSize": "10.1.0.0/29"
+							"minAddressPrefixSize": "/29"
 						},
 						"subnets": {
 							"subnet1": {
@@ -40,7 +40,7 @@
 									"addressPrefixSize": "10.1.0.0/24"
 								},
 								"constraints": {
-									"minAddressPrefixSize": "10.1.0.0/29",
+									"minAddressPrefixSize": "/29",
 									"minAddressCount": 2,
 									"requireContiguousAddresses": true
 								}
