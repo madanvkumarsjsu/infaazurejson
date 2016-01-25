@@ -15,38 +15,38 @@
                 "bladeTitle": "Node Settings",
                 "elements": [
 					{
-						"name": "infavnet",
-						"type": "Microsoft.Network.VirtualNetworkCombo",
-						"label": {
-							"virtualNetwork": "Virtual network",
-							"subnets": "Subnets"
-						 },
-						"toolTip": {
-							"virtualNetwork": "",
-							"subnets": ""
-						},
-						"defaultValue":	{
-							"name": "informaticavnet",
-							"addressPrefixSize": "10.1.0.0/16"
-						},
-						"constraints": {
-							"minAddressPrefixSize": "/29"
-						},
-						"subnets": {
-							"subnet1": {
-								"label": "Subnet",
-								"defaultValue":	{
-									"name": "subnet",
-									"addressPrefixSize": "10.1.0.0/24"
-								},
-								"constraints": {
-									"minAddressPrefixSize": "/29",
-									"minAddressCount": 2,
-									"requireContiguousAddresses": true
-								}
-							}
-						}
-					},
+                        "name": "vnetSpec",
+                        "type": "Microsoft.Network.VirtualNetworkCombo",
+                        "label": {
+                            "virtualNetwork": "New virtual network",
+                            "subnets": "Subnets"
+                        },
+                        "toolTip": {
+                            "virtualNetwork": "Only new virtual network is currently supported",
+                            "subnets": ""
+                        },
+                        "defaultValue": {
+                            "name": "appserviceVnet",
+                            "addressPrefixSize": "/16"
+                        },
+                        "constraints": {
+                            "minAddressPrefixSize": "/29"
+                        },
+                        "subnets": {
+                            "subnet1": {
+                                "label": "MySQL subnet",
+                                "defaultValue": {
+                                    "name": "dbsubnet",
+                                    "addressPrefixSize": "/24"
+                                },
+                                "constraints": {
+                                    "minAddressPrefixSize": "/29",
+                                    "minAddressCount": 2,
+                                    "requireContiguousAddresses": true
+                                }
+                            }
+                        }
+                    },
                     {
                         "name": "storageAccount",
                         "type": "Microsoft.Storage.StorageAccountSelector",
