@@ -6,36 +6,42 @@
             {
                 "name": "vnet",
                 "type": "Microsoft.Network.VirtualNetworkCombo",
-					"label": {
-						"virtualNetwork": "Virtual network",
-						"subnets": "Subnets"
-					},
-					"toolTip": {
-						"virtualNetwork": "",
-						"subnets": ""
-					},
-					"defaultValue": {
-						"name": "vnet01",
-						"addressPrefixSize": "/16"
-					},
-					"constraints": {
-						"minAddressPrefixSize": "/16"
-					},
-					"subnets": {
-						"subnet1": {
+                "label": 
+				{
+                    "virtualNetwork": "Virtual network",
+					"subnets": "Subnets"
+                 },
+                "toolTip": {
+					"virtualNetwork": "",
+                    "subnets": ""
+                },
+                "defaultValue": 
+					{
+						"name": "InformaticaVNET",
+                        "addressPrefixSize": "/16"
+                    },
+                    "constraints": 
+					{
+                        "minAddressPrefixSize": "/29"
+                    },
+					"subnets": 
+					{
+						"subnet1": 
+						{
 							"label": "Subnet",
-							"defaultValue": {
-							"name": "subnet-1",
-							"addressPrefixSize": "/24"
-						},
-						"constraints": {
-							"minAddressPrefixSize": "/24",
-							"minAddressCount": 12,
+							"defaultValue": 
+							{
+								"name": "subnet",
+								"addressPrefixSize": "/24"
+							},
+							"constraints": {
+							"minAddressPrefixSize": "/29",
+							"minAddressCount": 2,
 							"requireContiguousAddresses": true
 						}
 					}
 				}
-			}
+            }
         ],
         "steps": [
             {
