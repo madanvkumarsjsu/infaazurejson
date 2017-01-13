@@ -176,15 +176,15 @@
                 "bladeTitle": "Informatica BDM Services Settings",
                 "elements": [
                     {
-                        "name": "domainNodeCount",
+                        "name": "infamrsuserName",
                         "type": "Microsoft.Common.TextBox",
-                        "label": "Number of nodes",
-                        "defaultValue": "2",
-                        "toolTip": "",
+                        "label": "MRS Username",
+                        "defaultValue": "MRS Username",
+                        "toolTip": "MRS Username for Domain",
                         "constraints": {
                             "required": true,
-                            "regex": "^(([1-3]?[1-9]$)|([1-3][0]$)){1,2}",
-                            "validationMessage": "Only postive number is allowed. Should be less than or equal to 39"
+                            "regex": "^[a-z0-9A-Z_]{3,30}$",
+                            "validationMessage": "Only alphanumeric characters and underscore are allowed. The value must be 3-30"
                         }
                     },
                     {
