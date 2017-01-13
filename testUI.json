@@ -167,7 +167,7 @@
                 ]
             },
 			{
-				"label": "Informatica BDM Services Settings",
+				"label": "InformaticaBDMServicesSettings",
                 "name": "infaDomainServicesConfiguration",
                 "subLabel": {
                     "preValidation": "Informatica BDM Services Settings",
@@ -520,6 +520,8 @@
             "InfaDomainUser": "[steps('infaDomainConfiguration').infaDomainUser]",
             "InfaDomainPassword": "[steps('infaDomainConfiguration').infaDomainPassword]",
             "InfaKeyWord": "[steps('infaDomainConfiguration').infaDomainEncryptionKeyword]",
+			"infamrsuserName": "[steps('InformaticaBDMServicesSettings').infamrsuserName]",
+			"infamrspassword": "[steps('InformaticaBDMServicesSettings').infamrspassword]",
             "VM01Name": "[steps('databaseConfiguration').databaseName]",
             "DBVMSize": "[steps('databaseConfiguration').databaseVMSize]",
             "databaseType": "[steps('databaseConfiguration').databaseType]",
